@@ -3,7 +3,7 @@ const inputUpload = document.getElementById("imagem-upload");
 
 uploadBtn.addEventListener("click", () => {
     inputUpload.click();
-})
+});
 
 //verficação de tamanho e tipo
 inputUpload.addEventListener('change', function(event) {
@@ -35,7 +35,7 @@ function lerConteudoDoArquivo(arquivo) {
         }
 
         leitor.readAsDataURL(arquivo);
-    })
+    });
 }
 
 const imagemPrincipal = document.querySelector(".main-imagem");
@@ -53,4 +53,42 @@ inputUpload.addEventListener("change", async (evento) => {
             console.error("erro na leitura do arquivo");
         }
     }
-})
+});
+
+const inputTags = document.getElementById("categoria");
+const listaTags = document.getElementById("lista-tags");
+
+inputTags.addEventListener("keypress", (evento) => {
+    if (evento.key === "Enter") {
+        evento.preventDefault();
+        const tagTexto = inputTags.value.trim();
+        if (tagTexto !== "" && tagsDisponiveis.includes(tagTexto)) {
+            const tagNova = document.createElement("li");
+            tagNova.innerHTML = `<p>${tagTexto}</p> <img src="img/close-black.svg" class="remove-tag">`;
+            listaTags.appendChild(tagNova);
+            inputTags.value = "";
+        } else {
+            alert("Tag Invalida");
+        }
+    }
+});
+
+listaTags.addEventListener("click", (evento) => {
+    if (evento.target.classList.contains("remove-tag")) {
+        const tagRemovida = evento.target.parentElement; // Pega o elemento pai que é o <li> onde se encontra a imagem do X
+        listaTags.removeChild(tagRemovida);
+    }
+});
+
+const tagsDisponiveis = ["Front-End", "Programação", "Data Science", "Full Stack", "Banco de Dados", "HTML", "CSS", "JS"];
+
+//Simula como seria se tivesse uma requisição para um banco
+async function verficaTagsDisponiveis(tagTexto) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(tagsDisponiveis.includes(tagTexto));
+        }, 1000);
+    });
+}
+
+
