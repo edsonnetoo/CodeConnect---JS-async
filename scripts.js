@@ -103,23 +103,10 @@ inputTags.addEventListener("keypress", async (evento) => {
 
 const botaoPublicar = document.querySelector(".botao-publicar");
 
-botaoPublicar.addEventListener("click", async (evento) => {
-    evento.preventDefault();
-
-    const nomeDoProjeto = document.getElementById("nome").value;
-    const descricaoDoProjeto = document.getElementById("descricao").value;
-    const tagsProjeto = Array.from(listaTags.querySelectorAll("p")).map((tag) => tag.textContent);
-
-    console.log(nomeDoProjeto);
-    console.log(descricaoDoProjeto);
-    console.log(tagsProjeto);
-});
-
-
 async function publicarProjeto(nomeDoProjeto, descricaoProjeto, tagsProjeto) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const deuCerto = Math.random() > 0.5;
+            const deuCerto = Math.random() > 0.5; //Simula aleatoridade
 
             if(deuCerto) {
                 resolve("Projeto publicado com sucesso");
@@ -129,4 +116,36 @@ async function publicarProjeto(nomeDoProjeto, descricaoProjeto, tagsProjeto) {
         }, 2000);
     });
 }
+
+botaoPublicar.addEventListener("click", async (evento) => {
+    evento.preventDefault();
+
+    const nomeDoProjeto = document.getElementById("nome").value;
+    const descricaoDoProjeto = document.getElementById("descricao").value;
+    const tagsProjeto = Array.from(listaTags.querySelectorAll("p")).map((tag) => tag.textContent);
+
+    try {
+        const resultado = await publicarProjeto(nomeDoProjeto, descricaoDoProjeto, tagsProjeto);
+        console.log(resultado);
+        alert("Deu bom!");
+    } catch (error) {
+        console.log("Deu errado: ", error);
+        alert("Deu ruim!");
+    }
+});
+
+
+const botaoDescartar = document.querySelector(".botao-descartar");
+
+botaoDescartar.addEventListener("click", (evento) => {
+    evento.preventDefault();
+
+    const formulario = document.querySelector("form");
+    formulario.reset();
+
+    imagemPrincipal.src = "img/imagem1.png";
+    nomeDaImagem.textContent = "imagem_projeto.png"
+
+    listaTags.innerHTML = "";
+})
 
